@@ -1,0 +1,1 @@
+/usr/bin/c++.exe -g   -shared -Wl,--enable-auto-import -o cygFMPML.dll -Wl,--out-implib,libFMPML.dll.a -Wl,--major-image-version,0,--minor-image-version,0 CMakeFiles/FMPML.dir/library.cpp.o 
