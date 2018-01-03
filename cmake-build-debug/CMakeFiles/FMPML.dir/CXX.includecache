@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/cygdrive/c/Users/leog/Documents/GitHub/FMPML/UniversalModuleInterface.h
+string
+-
+
+/cygdrive/c/Users/leog/Documents/GitHub/FMPML/library.cpp
+library.h
+/cygdrive/c/Users/leog/Documents/GitHub/FMPML/library.h
+iostream
+-
+w32api/vadefs.h
+-
+
+/cygdrive/c/Users/leog/Documents/GitHub/FMPML/library.h
+string
+-
+vector
+-
+UniversalModuleInterface.h
+/cygdrive/c/Users/leog/Documents/GitHub/FMPML/UniversalModuleInterface.h
+

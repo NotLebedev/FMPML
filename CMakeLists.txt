@@ -3,4 +3,4 @@ project(FMPML)
 
 set(CMAKE_CXX_STANDARD 11)
 
-add_library(FMPML SHARED library.cpp library.h)
+add_library(FMPML SHARED library.cpp library.h UniversalModuleInterface.h)
