@@ -2,27 +2,94 @@
 
 #include <iostream>
 #include <w32api/vadefs.h>
+#include <cstring>
+#include <unordered_map>
 
-void hello() {
-    std::cout << "Hello, World!" << std::endl;
-}
+UniversalModuleInterface *moduleInterface;
 
 std::vector<std::string> __declspec(dllexport) __stdcall f_init(UniversalModuleInterface *universalModuleInterface) {
 
-    printf("Called f_init of FMPML");
+    moduleInterface = universalModuleInterface;
 
-    return std::vector<std::string>();
+    std::vector<std::string> words = {"FLOAT", "F.", "F+", "F-", "F*", "F/"};
+
+    return words;
 
 }
 
 void __declspec(dllexport) __stdcall f_delete() {
 
-    printf("Called f_delete of FMPML");
+    delete moduleInterface;
 
 }
 
-void __declspec(dllexport) __stdcall f_execWord(std::string word) {
+void __declspec(dllexport) __stdcall f_execWord(char *word) {
 
-    printf("Called f_execWord of FMPML");
+    iWORD *tmp1;
+    iWORD *tmp2;
+    const char *str;
+
+    if(strcmp("F.", word) == 0) {
+
+        tmp1 = moduleInterface->getStack();
+
+        printf("%f", *(float*)(tmp1));
+
+    } else if(strcmp("FLOAT", word) == 0) {
+
+        float f;
+
+        str = moduleInterface->getInputString();
+
+        f = std::strtof(str, nullptr);
+
+        moduleInterface->setStack((iWORD*)(&f));
+
+    } else if(strcmp("F+", word) == 0) {
+
+        float f;
+
+        tmp2 = moduleInterface->getStack();
+        tmp1 = moduleInterface->getStack();
+
+        f = *(float *)(tmp1) + *(float *)(tmp2);
+
+        moduleInterface->setStack((iWORD*)(&f));
+
+    } else if(strcmp("F-", word) == 0) {
+
+        float f;
+
+        tmp2 = moduleInterface->getStack();
+        tmp1 = moduleInterface->getStack();
+
+        f = *(float *)(tmp1) - *(float *)(tmp2);
+
+        moduleInterface->setStack((iWORD*)(&f));
+
+    } else if(strcmp("F*", word) == 0) {
+
+        float f;
+
+        tmp2 = moduleInterface->getStack();
+        tmp1 = moduleInterface->getStack();
+
+        f = *(float *)(tmp1) * *(float *)(tmp2);
+
+        moduleInterface->setStack((iWORD*)(&f));
+
+    } else if(strcmp("F/", word) == 0) {
+
+        float f;
+
+        tmp2 = moduleInterface->getStack();
+        tmp1 = moduleInterface->getStack();
+
+        f = *(float *)(tmp1) / *(float *)(tmp2);
+
+        moduleInterface->setStack((iWORD*)(&f));
+
+    }
+
 
 }
