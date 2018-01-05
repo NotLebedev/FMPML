@@ -7,11 +7,27 @@
 
 UniversalModuleInterface *moduleInterface;
 
+const char *FLOAT = "FLOAT";
+const char *FOUT =  "F.";
+const char *FADD =  "F+";
+const char *FSUB =  "F-";
+const char *FMUL =  "F*";
+const char *FDIV =  "F/";
+
+std::unordered_map<std::string, size_t> commands = {
+        {FLOAT, 0},
+        {FOUT,  1},
+        {FADD,  2},
+        {FSUB,  3},
+        {FMUL,  4},
+        {FDIV,  5}
+};
+
 std::vector<std::string> __declspec(dllexport) __stdcall f_init(UniversalModuleInterface *universalModuleInterface) {
 
     moduleInterface = universalModuleInterface;
 
-    std::vector<std::string> words = {"FLOAT", "F.", "F+", "F-", "F*", "F/"};
+    std::vector<std::string> words = {FLOAT, FOUT, FADD, FSUB, FMUL, FDIV};
 
     return words;
 
@@ -27,69 +43,74 @@ void __declspec(dllexport) __stdcall f_execWord(char *word) {
 
     iWORD *tmp1;
     iWORD *tmp2;
+    float f;
     const char *str;
 
-    if(strcmp("F.", word) == 0) {
+    auto got = commands.find(word);
 
-        tmp1 = moduleInterface->getStack();
+    if(got._M_cur) {
 
-        printf("%f", *(float*)(tmp1));
+        switch (got->second) {
+            case 0:
 
-    } else if(strcmp("FLOAT", word) == 0) {
+                str = moduleInterface->getInputString();
 
-        float f;
+                f = std::strtof(str, nullptr);
 
-        str = moduleInterface->getInputString();
+                moduleInterface->setStack((iWORD*)(&f));
 
-        f = std::strtof(str, nullptr);
+                break;
+            case 1:
 
-        moduleInterface->setStack((iWORD*)(&f));
+                tmp1 = moduleInterface->getStack();
 
-    } else if(strcmp("F+", word) == 0) {
+                printf("%f", *(float*)(tmp1));
 
-        float f;
+                break;
+            case 2:
 
-        tmp2 = moduleInterface->getStack();
-        tmp1 = moduleInterface->getStack();
+                tmp2 = moduleInterface->getStack();
+                tmp1 = moduleInterface->getStack();
 
-        f = *(float *)(tmp1) + *(float *)(tmp2);
+                f = *(float *)(tmp1) + *(float *)(tmp2);
 
-        moduleInterface->setStack((iWORD*)(&f));
+                moduleInterface->setStack((iWORD*)(&f));
 
-    } else if(strcmp("F-", word) == 0) {
+                break;
+            case 3:
 
-        float f;
+                tmp2 = moduleInterface->getStack();
+                tmp1 = moduleInterface->getStack();
 
-        tmp2 = moduleInterface->getStack();
-        tmp1 = moduleInterface->getStack();
+                f = *(float *)(tmp1) - *(float *)(tmp2);
 
-        f = *(float *)(tmp1) - *(float *)(tmp2);
+                moduleInterface->setStack((iWORD*)(&f));
 
-        moduleInterface->setStack((iWORD*)(&f));
+                break;
+            case 4:
 
-    } else if(strcmp("F*", word) == 0) {
+                tmp2 = moduleInterface->getStack();
+                tmp1 = moduleInterface->getStack();
 
-        float f;
+                f = *(float *)(tmp1) * *(float *)(tmp2);
 
-        tmp2 = moduleInterface->getStack();
-        tmp1 = moduleInterface->getStack();
+                moduleInterface->setStack((iWORD*)(&f));
 
-        f = *(float *)(tmp1) * *(float *)(tmp2);
+                break;
+            case 5:
 
-        moduleInterface->setStack((iWORD*)(&f));
+                tmp2 = moduleInterface->getStack();
+                tmp1 = moduleInterface->getStack();
 
-    } else if(strcmp("F/", word) == 0) {
+                f = *(float *)(tmp1) / *(float *)(tmp2);
 
-        float f;
+                moduleInterface->setStack((iWORD*)(&f));
 
-        tmp2 = moduleInterface->getStack();
-        tmp1 = moduleInterface->getStack();
-
-        f = *(float *)(tmp1) / *(float *)(tmp2);
-
-        moduleInterface->setStack((iWORD*)(&f));
+                break;
+            default:
+                break;
+        }
 
     }
-
 
 }

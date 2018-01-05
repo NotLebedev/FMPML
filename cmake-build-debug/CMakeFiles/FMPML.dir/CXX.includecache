@@ -19,6 +19,8 @@ w32api/vadefs.h
 -
 cstring
 -
+unordered_map
+-
 
 /cygdrive/d/endearing/Work/FMPML/library.h
 string
