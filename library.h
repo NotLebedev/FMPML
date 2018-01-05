@@ -7,6 +7,6 @@
 
 std::vector<std::string> __declspec(dllexport) __stdcall f_init     (UniversalModuleInterface *universalModuleInterface);
 void                     __declspec(dllexport) __stdcall f_delete   ();
-void                     __declspec(dllexport) __stdcall f_execWord (std::string word);
+void                     __declspec(dllexport) __stdcall f_execWord (char *word);
 
 #endif

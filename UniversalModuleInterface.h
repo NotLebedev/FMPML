@@ -14,11 +14,19 @@ class UniversalModuleInterface {
 
 public:
 
-    virtual ERROR_TYPE executeCommand(std::string& command) = 0;
+    virtual ERROR_TYPE executeCommand(char *command);
 
-    virtual ERROR_TYPE getStack(iWORD *data) = 0;
+    virtual iWORD * getStack();
 
-    virtual ERROR_TYPE getDictionary(iWORD *data, size_t startAdr, size_t endAdr) = 0;
+    virtual iWORD * getDictionary(size_t startAdr, size_t size);
+
+    virtual void setStack(iWORD *data);
+
+    virtual void setDictionary(iWORD *data, size_t startAdr, size_t size);
+
+    virtual const char * getInputString();
+
+    virtual const char * getInputChar();
 
 };
 
