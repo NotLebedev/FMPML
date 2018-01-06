@@ -16,6 +16,7 @@ const char *FMUL =  "F*";
 const char *FDIV =  "F/";
 const char *FSQRT = "FSQRT";
 const char *FTOI =  "FTOI";
+const char *ITOF =  "ITOF";
 
 std::unordered_map<std::string, size_t> commands = {
         {FLOAT, 0},
@@ -25,14 +26,15 @@ std::unordered_map<std::string, size_t> commands = {
         {FMUL,  4},
         {FDIV,  5},
         {FSQRT, 6},
-        {FTOI,  7}
+        {FTOI,  7},
+        {ITOF,  8}
 };
 
 std::vector<std::string> __declspec(dllexport) __stdcall f_init(UniversalModuleInterface *universalModuleInterface) {
 
     moduleInterface = universalModuleInterface;
 
-    std::vector<std::string> words = {FLOAT, FOUT, FADD, FSUB, FMUL, FDIV, FSQRT, FTOI};
+    std::vector<std::string> words = {FLOAT, FOUT, FADD, FSUB, FMUL, FDIV, FSQRT, FTOI, ITOF};
 
     return words;
 
@@ -129,6 +131,15 @@ void __declspec(dllexport) __stdcall f_execWord(char *word) {
                 *tmp1 = (iWORD)f;
 
                 moduleInterface->setStack(tmp1);
+
+                break;
+            case 8:
+
+                tmp1 = moduleInterface->getStack();
+
+                f = (float)(*tmp1);
+
+                moduleInterface->setStack((iWORD*)(&f));
 
                 break;
             default:
