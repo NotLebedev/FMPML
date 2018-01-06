@@ -1,5 +1,6 @@
 #include "library.h"
 
+#include <cmath>
 #include <iostream>
 #include <w32api/vadefs.h>
 #include <cstring>
@@ -13,6 +14,8 @@ const char *FADD =  "F+";
 const char *FSUB =  "F-";
 const char *FMUL =  "F*";
 const char *FDIV =  "F/";
+const char *FSQRT = "FSQRT";
+const char *FTOI =  "FTOI";
 
 std::unordered_map<std::string, size_t> commands = {
         {FLOAT, 0},
@@ -20,14 +23,16 @@ std::unordered_map<std::string, size_t> commands = {
         {FADD,  2},
         {FSUB,  3},
         {FMUL,  4},
-        {FDIV,  5}
+        {FDIV,  5},
+        {FSQRT, 6},
+        {FTOI,  7}
 };
 
 std::vector<std::string> __declspec(dllexport) __stdcall f_init(UniversalModuleInterface *universalModuleInterface) {
 
     moduleInterface = universalModuleInterface;
 
-    std::vector<std::string> words = {FLOAT, FOUT, FADD, FSUB, FMUL, FDIV};
+    std::vector<std::string> words = {FLOAT, FOUT, FADD, FSUB, FMUL, FDIV, FSQRT, FTOI};
 
     return words;
 
@@ -105,6 +110,25 @@ void __declspec(dllexport) __stdcall f_execWord(char *word) {
                 f = *(float *)(tmp1) / *(float *)(tmp2);
 
                 moduleInterface->setStack((iWORD*)(&f));
+
+                break;
+            case 6:
+
+                tmp1 = moduleInterface->getStack();
+
+                f = std::sqrt(*(float *)(tmp1));
+
+                moduleInterface->setStack((iWORD*)(&f));
+
+                break;
+            case 7:
+
+                tmp1 = moduleInterface->getStack();
+
+                f = *(float *)(tmp1);
+                *tmp1 = (iWORD)f;
+
+                moduleInterface->setStack(tmp1);
 
                 break;
             default:

@@ -95,5 +95,8 @@
 		<Unit filename="/cygdrive/d/endearing/Work/FMPML/cmake-build-debug/cygFMPML.dll">
 			<Option virtualFolder="CMake Files\cmake-build-debug\"/>
 		</Unit>
+		<Unit filename="/cygdrive/d/endearing/Work/FMPML/cmake-build-debug/cygFMPML.dll">
+			<Option virtualFolder="CMake Files\cmake-build-debug\"/>
+		</Unit>
 	</Project>
 </CodeBlocks_project_file>

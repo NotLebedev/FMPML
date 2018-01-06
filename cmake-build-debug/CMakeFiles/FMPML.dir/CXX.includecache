@@ -13,6 +13,8 @@ string
 /cygdrive/d/endearing/Work/FMPML/library.cpp
 library.h
 /cygdrive/d/endearing/Work/FMPML/library.h
+cmath
+-
 iostream
 -
 w32api/vadefs.h
