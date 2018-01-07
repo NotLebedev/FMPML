@@ -6,6 +6,7 @@
 #include <cstring>
 #include <unordered_map>
 
+
 UniversalModuleInterface *moduleInterface;
 
 const char *FLOAT = "FLOAT";
@@ -30,6 +31,14 @@ std::unordered_map<std::string, size_t> commands = {
         {ITOF,  8}
 };
 
+/*
+ * std::vector<std::string> f_init(UniversalModuleInterface *universalModuleInterface)
+ *
+ * This method is called at initialization of module
+ * Instance of UniversalModuleInterface is received as parameter
+ * Function must return std::vector<std::string> of all words, that your module introduces
+ *
+ * */
 std::vector<std::string> __declspec(dllexport) __stdcall f_init(UniversalModuleInterface *universalModuleInterface) {
 
     moduleInterface = universalModuleInterface;
@@ -40,12 +49,25 @@ std::vector<std::string> __declspec(dllexport) __stdcall f_init(UniversalModuleI
 
 }
 
+/*
+ * void f_delete()
+ *
+ * This method is called before deleting module
+ *
+ * */
 void __declspec(dllexport) __stdcall f_delete() {
 
     delete moduleInterface;
 
 }
 
+/*
+ * void f_execWord(char *word)
+ *
+ * This method is called each time some word from this module needs to be executed
+ * Name of word that is required to be executed is received as char* parameter
+ *
+ * */
 void __declspec(dllexport) __stdcall f_execWord(char *word) {
 
     iWORD *tmp1;
